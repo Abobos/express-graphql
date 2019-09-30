@@ -7,14 +7,14 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         primaryKey: true,
         type: DataTypes.UUID,
-        defaultvalue: DataTypes.UUIDV4
+        defaultValue: DataTypes.UUIDV4
       },
       name: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false
       },
       slug: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false
       }
     },

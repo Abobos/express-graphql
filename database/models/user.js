@@ -1,4 +1,7 @@
 "use strict";
+
+const bcrypt = require("bcrypt");
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     "User",
@@ -7,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         primaryKey: true,
         type: DataTypes.UUID,
-        defaultvalue: DataTypes.UUIDV4
+        defaultValue: DataTypes.UUIDV4
       },
       email: {
         type: DataTypes.STRING,
@@ -22,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       role: {
         type: DataTypes.ENUM("ADMIN", "USER"),
         allowNull: false,
-        defaultvalue: "USER"
+        defaultValue: "USER"
       },
       avatar: {
         type: DataTypes.STRING
@@ -39,5 +42,8 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Thread);
     User.hasMany(models.Reply);
   };
+  User.beforeCreate(async user => {
+    user.password = await bcrypt.hash(user.password, 10);
+  });
   return User;
 };
