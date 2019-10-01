@@ -19,4 +19,8 @@ module.exports = gql`
     UNSOLVED
     SOLVED
   }
+
+  extend type Mutation {
+    createThread(title: String!, content: String!, channelId: ID!): Thread!
+  }
 `;

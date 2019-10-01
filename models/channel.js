@@ -21,7 +21,6 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   Channel.associate = function(models) {
-    // associations can be defined here
     Channel.hasMany(models.Thread);
   };
   return Channel;

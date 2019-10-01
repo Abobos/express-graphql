@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       slug: {
         type: DataTypes.STRING,
-        allowNull: false
+        unique: true
       },
       content: {
         type: DataTypes.TEXT,
@@ -47,7 +47,6 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   Thread.associate = function(models) {
-    // associations can be defined here
     Thread.belongsTo(models.User, {
       foreignKey: "userId"
     });
@@ -56,5 +55,8 @@ module.exports = (sequelize, DataTypes) => {
     });
     Thread.hasMany(models.Reply);
   };
+  Thread.beforeCreate(thread => {
+    thread.slug = thread.title.toLowerCase().replace(/\s/g, "-");
+  });
   return Thread;
 };

@@ -14,9 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     { timestamps: false }
   );
-  Favorite.associate = function(models) {
-    // associations can be defined here
-  };
+  Favorite.associate = function(models) {};
 
   Favorite.removeAttribute("id");
   return Favorite;
