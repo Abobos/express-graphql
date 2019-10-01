@@ -20,6 +20,11 @@ module.exports = gql`
     token: String!
   }
 
+  extend type Query {
+    me: User!
+    signIn(email: String!, password: String!): Token!
+  }
+
   extend type Mutation {
     signUp(username: String!, email: String!, password: String!): Token!
   }

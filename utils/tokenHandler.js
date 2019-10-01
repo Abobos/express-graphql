@@ -9,10 +9,10 @@ const createToken = payload => {
 };
 
 const verifyToken = token => {
-  const verifiedToken = jwt.verify(token, process.env.JWT_SECRET, {
+  const decoded = jwt.verify(token, process.env.JWT_SECRET, {
     expiresIn: "24h"
   });
-  return verifiedToken;
+  return decoded;
 };
 
 module.exports = { createToken, verifyToken };
