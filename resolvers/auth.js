@@ -9,7 +9,7 @@ module.exports = req => {
 
     const userDetails = verifyToken(token);
     return userDetails;
-  } catch (e) {
+  } catch {} {
     return null;
   }
 };

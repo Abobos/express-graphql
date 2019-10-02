@@ -6,7 +6,7 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
-        defaultvalue: Sequelize.UUIDV4
+        defaultValue: Sequelize.UUIDV4
       },
       content: {
         type: Sequelize.TEXT,
@@ -23,7 +23,7 @@ module.exports = {
       isBestAnswer: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
-        defaultvalue: false
+        defaultValue: false
       },
       createdAt: {
         allowNull: false,

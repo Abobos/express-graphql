@@ -6,7 +6,7 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
-        defaultvalue: Sequelize.UUIDV4
+        defaultValue: Sequelize.UUIDV4
       },
       title: {
         type: Sequelize.STRING,
@@ -31,12 +31,12 @@ module.exports = {
       status: {
         type: Sequelize.ENUM("UNSOLVED", "SOLVED"),
         allowNull: false,
-        defaultvalue: "UNSOLVED"
+        defaultValue: "UNSOLVED"
       },
       isLocked: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
-        defaultvalue: false
+        defaultValue: false
       },
       lastRepliedAt: {
         type: Sequelize.DATE,

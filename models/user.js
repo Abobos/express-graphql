@@ -37,7 +37,9 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   User.associate = function(models) {
-    User.hasMany(models.Thread);
+    User.hasMany(models.Thread, {
+      foreignKey: "userId"
+    });
     User.hasMany(models.Reply);
   };
   User.beforeCreate(async user => {

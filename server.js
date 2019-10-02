@@ -18,7 +18,7 @@ const server = new ApolloServer({
     return { models, authUser };
   },
   formatError: error => {
-    return error;
+    return error.message;
   }
 });
 
