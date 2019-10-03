@@ -14,6 +14,7 @@ module.exports = {
       return models.Thread.findAll();
     }
   },
+
   Mutation: {
     createThread(parent, args, { models, authUser }) {
       return models.Thread.create({
@@ -22,6 +23,7 @@ module.exports = {
         lastRepliedAt: new Date()
       });
     },
+
     async updateThread(parent, args, { models, authUser }) {
       const { id, title, content } = args;
       const thread = await models.Thread.findByPk(id);
@@ -35,6 +37,7 @@ module.exports = {
       return thread;
     }
   },
+
   Thread: {
     channel(thread) {
       return thread.getChannel();
