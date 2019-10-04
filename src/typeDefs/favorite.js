@@ -10,6 +10,11 @@ const favorite = gql`
     markAsFavorite(replyId: ID!): Favorite!
     unmarkAsFavorite(replyId: ID!): Boolean!
   }
+
+  extend type Subscription {
+    replyFavorited: Favorite!
+    replyUnfavorited: Favorite!
+  }
 `;
 
 export default favorite;

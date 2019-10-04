@@ -18,6 +18,12 @@ const reply = gql`
     updateReply(id: ID!, content: String!): Reply!
     deleteReply(id: ID!): Boolean!
   }
+
+  extend type Subscription {
+    replyAdded: Reply!
+    replyMarkedAsBestAnswer: Reply!
+    replyUnmarkedAsBestAnswer: Reply!
+  }
 `;
 
 export default reply;
