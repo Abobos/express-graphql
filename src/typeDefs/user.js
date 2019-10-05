@@ -27,6 +27,8 @@ const user = gql`
 
   extend type Mutation {
     signUp(username: String!, email: String!, password: String!): Token!
+    updateUser(username: String!, email: String!): User!
+    changePassword(currentPassword: String!, newPassword: String!): User!
   }
 `;
 

@@ -42,8 +42,14 @@ export default (sequelize, DataTypes) => {
       foreignKey: "userId"
     });
   };
+
   User.beforeCreate(async user => {
     user.password = await bcrypt.hash(user.password, 10);
   });
+
+  User.beforeUpdate(async user => {
+    user.password = await bcrypt.hash(user.password, 10);
+  });
+
   return User;
 };

@@ -38,6 +38,33 @@ export default {
       const userDetails = { id: user.id, email: user.email, role: user.role };
 
       return { token: createToken(userDetails) };
+    },
+
+    async updateUser(parent, args, { models, authUser }) {
+      const { username, email } = args;
+      const user = await models.User.findByPk(authUser.id);
+
+      await user.update({
+        username,
+        email
+      });
+
+      return user;
+    },
+    async changePassword(parent, args, { models, authUser }) {
+      const { currentPassword, newPassword } = args;
+      const user = await models.User.findByPk(authUser.id);
+
+      const isPasswordValid = await bcrypt.compare(
+        currentPassword,
+        user.password
+      );
+
+      if (!isPasswordValid) throw new ApolloError("Incorrect password");
+
+      await user.update({ password: newPassword });
+
+      return user;
     }
   }
 };
