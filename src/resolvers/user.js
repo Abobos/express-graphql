@@ -82,7 +82,7 @@ export default {
       const { createReadStream } = await avatar;
 
       try {
-        const result = await new Promis((resolve, reject) => {
+        const result = await new Promise((resolve, reject) => {
           createReadStream.pipe(
             cloudinary.uploader.upload_stream((error, result) => {
               if (error) reject(error);
@@ -95,7 +95,7 @@ export default {
 
         await user.update({ avatar: result.secure_url });
       } catch (err) {
-        throw new ApolloError("Image");
+        throw new ApolloError("Image upload failed");
       }
     }
   }

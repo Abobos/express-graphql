@@ -10,8 +10,30 @@ export default {
       return thread;
     },
 
-    threads(parent, args, { models }) {
-      return models.Thread.findAll();
+    async threads(parent, { channelSlug, status }, { models }) {
+      const whereOptions = {};
+
+      if (status) {
+        whereOptions.status = status;
+      }
+
+      if (channelSlug) {
+        const channel = await models.Channel.findOne({
+          where: {
+            slug: channelSlug
+          }
+        });
+
+        if (!channel) throw new ApolloError("Channel not found");
+
+        whereOptions.channelId = channel.id;
+      }
+
+      return models.Thread.findAll({ where: whereOptions });
+    },
+
+    async threadsByMe(parent, args, { models, authUser }) {
+      return await models.Thread.findAll({ where: { userId: authUser.id } });
     }
   },
 
