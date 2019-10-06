@@ -7,6 +7,8 @@ export default {
       const { threadId, content } = args;
       const thread = await models.Thread.findByPk(threadId);
 
+      if (thread.isLocked) throw new ApolloError("Thread has been locked");
+
       const reply = await models.Reply.create({
         threadId,
         content,
@@ -23,6 +25,8 @@ export default {
     async markReplyAsBestAnswer(parent, { id }, { models, authUser, pubsub }) {
       const reply = await models.Reply.findByPk(id);
       const thread = await reply.getThread();
+
+      if (thread.isLocked) throw new ApolloError("Thread has been locked");
 
       if (thread.userId !== authUser.id) {
         throw new ForbiddenError(
@@ -43,6 +47,8 @@ export default {
     async unmarkReplyAsBestAnswer(parent, args, { models, authUser, pubsub }) {
       const reply = await models.Reply.findByPk(args.id);
       const thread = await reply.getThread();
+
+      if (thread.isLocked) throw new ApolloError("Thread has been locked");
 
       if (thread.userId !== authUser.id) {
         throw new ForbiddenError(

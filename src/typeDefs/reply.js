@@ -12,11 +12,11 @@ const reply = gql`
   }
 
   extend type Mutation {
-    createReply(threadId: ID!, content: String!): Reply!
-    markReplyAsBestAnswer(id: ID!): Reply!
-    unmarkReplyAsBestAnswer(id: ID!): Reply!
-    updateReply(id: ID!, content: String!): Reply!
-    deleteReply(id: ID!): Boolean!
+    createReply(threadId: ID!, content: String!): Reply! @auth
+    markReplyAsBestAnswer(id: ID!): Reply! @auth
+    unmarkReplyAsBestAnswer(id: ID!): Reply! @auth
+    updateReply(id: ID!, content: String!): Reply! @auth
+    deleteReply(id: ID!): Boolean! @auth
   }
 
   extend type Subscription {

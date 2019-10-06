@@ -38,6 +38,7 @@ export default (sequelize, DataTypes) => {
     User.hasMany(models.Thread, {
       foreignKey: "userId"
     });
+
     User.hasMany(models.Reply, {
       foreignKey: "userId"
     });

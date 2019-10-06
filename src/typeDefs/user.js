@@ -21,14 +21,16 @@ const user = gql`
   }
 
   extend type Query {
-    me: User!
+    me: User! @auth
     signIn(email: String!, password: String!): Token!
+    user(username: String!): User!
   }
 
   extend type Mutation {
     signUp(username: String!, email: String!, password: String!): Token!
-    updateUser(username: String!, email: String!): User!
-    changePassword(currentPassword: String!, newPassword: String!): User!
+    updateUser(username: String!, email: String!): User! @auth
+    changePassword(currentPassword: String!, newPassword: String!): User! @auth
+    uploadAvatar(avatar: Upload!): User! @auth
   }
 `;
 

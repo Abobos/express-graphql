@@ -4,12 +4,17 @@ import typeDefs from "../typeDefs";
 import resolvers from "../resolvers";
 import models from "../models";
 import getUserAuth from "../resolvers/auth";
+import { AuthDirective, AdminDirective } from "../directives";
 
 const pubsub = new PubSub();
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  schemaDirectives: {
+    auth: AuthDirective,
+    admin: AdminDirective
+  },
   context({ req, connection }) {
     if (connection) {
       return { models, pubsub };
@@ -19,7 +24,7 @@ const server = new ApolloServer({
     }
   },
   formatError(error) {
-    return error;
+    return error.message;
   }
 });
 

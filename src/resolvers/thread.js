@@ -28,6 +28,8 @@ export default {
       const { id, title, content } = args;
       const thread = await models.Thread.findByPk(id);
 
+      if (thread.isLocked) throw new ApolloError("Thread has been locked");
+
       if (authUser.id !== thread.userId) {
         throw new ForbiddenError("You can only edit your own thread");
       }
@@ -47,6 +49,26 @@ export default {
       await reply.destroy();
 
       return true;
+    },
+
+    async lockThread(parent, { id }, { models, authUser }) {
+      const thread = await models.Thread.findByPk(id);
+
+      if (thread.isLocked) throw new ApolloError("Thread is already locked");
+
+      await thread.update({ isLocked: true });
+
+      return thread;
+    },
+
+    async unlockThread(parent, { id }, { models, authUser }) {
+      const thread = await models.Thread.findByPk(id);
+
+      if (!thread.isLocked) throw new ApolloError("Thread is already unLocked");
+
+      await thread.update({ isLocked: false });
+
+      return thread;
     }
   },
 

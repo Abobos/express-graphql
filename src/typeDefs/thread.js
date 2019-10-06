@@ -23,7 +23,10 @@ const thread = gql`
 
   extend type Mutation {
     createThread(title: String!, content: String!, channelId: ID!): Thread!
-    updateThread(id: ID!, title: String!, content: String!): Thread!
+      @auth
+    updateThread(id: ID!, title: String!, content: String!): Thread! @auth
+    lockThread(id: ID!): Thread! @admin
+    unlockThread(id: ID!): Thread! @admin
   }
 
   extend type Query {
