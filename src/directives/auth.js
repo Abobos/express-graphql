@@ -5,7 +5,7 @@ import {
 
 class AuthDirective extends SchemaDirectiveVisitor {
   visitFieldDefinition(field) {
-    const { resolve } = field;
+    const { resolve = defaultFieldResolver } = field;
 
     field.resolve = function(...args) {
       const { authUser } = args[2];

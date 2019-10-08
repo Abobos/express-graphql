@@ -7,6 +7,7 @@ const user = gql`
     email: String!
     role: Role!
     avatar: String
+    threads(perPage: Int, page: Int): [Thread]!
     createdAt: DateTime!
     updatedAt: DateTime!
   }

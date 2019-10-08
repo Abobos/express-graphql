@@ -1,4 +1,5 @@
 import { ApolloError, ForbiddenError } from "apollo-server-express";
+import { encodeCursor, decodeCursor } from "../utils/cursor";
 
 export default {
   Query: {
@@ -10,7 +11,8 @@ export default {
       return thread;
     },
 
-    async threads(parent, { channelSlug, status }, { models }) {
+    async threads(parent, args, { models }) {
+      const { channelSlug, status, perPage = 15, page = 1 } = args;
       const whereOptions = {};
 
       if (status) {
@@ -29,11 +31,23 @@ export default {
         whereOptions.channelId = channel.id;
       }
 
-      return models.Thread.findAll({ where: whereOptions });
+      return models.Thread.findAll({
+        where: whereOptions,
+        order: [["lastRepliedAt", "DESC"]],
+        limit: perPage,
+        offset: perPage * (page - 1)
+      });
     },
 
     async threadsByMe(parent, args, { models, authUser }) {
-      return await models.Thread.findAll({ where: { userId: authUser.id } });
+      const { perPage = 15, page = 1 } = args;
+
+      return await models.Thread.findAll({
+        where: { userId: authUser.id },
+        order: [["lastRepliedAt", "DESC"]],
+        limit: perPage,
+        offset: perPage * (page - 1)
+      });
     }
   },
 
@@ -98,11 +112,35 @@ export default {
     channel(thread) {
       return thread.getChannel();
     },
-    creator(thread) {
-      return thread.getUser();
+    creator(thread, args, { loaders }) {
+      return loaders.user.load(thread.userId);
     },
-    replies(thread) {
-      return thread.getReplies();
+    async replies(thread, { perPage = 15, after }, { models }) {
+      const whereOptions = {
+        threadId: thread.id
+      };
+
+      if (after) {
+        whereOptions.createdAt = {
+          [models.Sequelize.Op.gt]: decodeCursor(after)
+        };
+      }
+
+      const { rows, count } = await models.Reply.findAndCountAll({
+        order: [["createdAt", "ASC"]],
+        limit: perPage,
+        where: whereOptions
+      });
+
+      return {
+        edges: rows,
+        pageInfo: {
+          endCursor: rows.length
+            ? encodeCursor(rows[rows.length - 1].createdAt.toISOString())
+            : null,
+          hasMore: rows.length ? count > rows.length : false
+        }
+      };
     }
   }
 };

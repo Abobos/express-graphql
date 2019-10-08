@@ -8,12 +8,22 @@ const thread = gql`
     content: String!
     creator: User!
     channel: Channel!
-    replies: [Reply]!
+    replies(perPage: Int, after: String): ReplyConnection!
     status: ThreadStatus!
     isLocked: Boolean!
     lastRepliedAt: DateTime!
     createdAt: DateTime!
     updatedAt: DateTime!
+  }
+
+  type ReplyConnection {
+    edges: [Reply!]!
+    pageInfo: PageInfo!
+  }
+
+  type PageInfo {
+    endCursor: String
+    hasMore: Boolean!
   }
 
   enum ThreadStatus {
@@ -31,8 +41,13 @@ const thread = gql`
 
   extend type Query {
     thread(id: ID!): Thread
-    threads(channelSlug: String, status: ThreadStatus): [Thread]!
-    threadsByMe: [Thread]! @auth
+    threads(
+      channelSlug: String
+      status: ThreadStatus
+      perPage: Int
+      page: Int
+    ): [Thread]!
+    threadsByMe(perPage: Int, page: Int): [Thread]! @auth
   }
 `;
 

@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 
 import cloudinary from "../config/cloudinary";
 import { createToken } from "../utils/tokenHandler";
-import { rejects } from "assert";
 
 export default {
   Query: {
@@ -97,6 +96,16 @@ export default {
       } catch (err) {
         throw new ApolloError("Image upload failed");
       }
+    }
+  },
+  User: {
+    async threads(user, { perPage = 15, page = 1 }, { models }) {
+      return await models.Thread.findAll({
+        where: { userId: user.id },
+        order: [["lastRepliedAt", "DESC"]],
+        limit: perPage,
+        offset: perPage * (page - 1)
+      });
     }
   }
 };
