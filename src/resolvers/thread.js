@@ -109,13 +109,14 @@ export default {
   },
 
   Thread: {
-    channel(thread) {
-      return thread.getChannel();
+    channel(thread, args, { loaders }) {
+      return loaders.channel.load(thread.channelId);
     },
     creator(thread, args, { loaders }) {
       return loaders.user.load(thread.userId);
     },
-    async replies(thread, { perPage = 15, after }, { models }) {
+    async replies(thread, { perPage = 15, after }, { models, loaders }) {
+      // return loaders.reply.load(thread.id);
       const whereOptions = {
         threadId: thread.id
       };

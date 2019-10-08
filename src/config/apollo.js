@@ -5,7 +5,7 @@ import resolvers from "../resolvers";
 import models from "../models";
 import getUserAuth from "../resolvers/auth";
 import { AuthDirective, AdminDirective } from "../directives";
-import { userLoader } from "../loaders";
+import { userLoader, channelLoader, replyLoader } from "../loaders";
 
 const pubsub = new PubSub();
 
@@ -26,7 +26,9 @@ const server = new ApolloServer({
         authUser,
         pubsub,
         loaders: {
-          user: userLoader()
+          user: userLoader(),
+          channel: channelLoader(),
+          reply: replyLoader()
         }
       };
     }
