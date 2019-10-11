@@ -115,33 +115,33 @@ export default {
     creator(thread, args, { loaders }) {
       return loaders.user.load(thread.userId);
     },
-    async replies(thread, { perPage = 15, after }, { models, loaders }) {
-      // return loaders.reply.load(thread.id);
-      const whereOptions = {
-        threadId: thread.id
-      };
+    replies(thread, { perPage = 15, after }, { models, loaders }) {
+      return loaders.replies.load(thread.id);
+      //   const whereOptions = {
+      //     threadId: thread.id
+      //   };
 
-      if (after) {
-        whereOptions.createdAt = {
-          [models.Sequelize.Op.gt]: decodeCursor(after)
-        };
-      }
+      //   if (after) {
+      //     whereOptions.createdAt = {
+      //       [models.Sequelize.Op.gt]: decodeCursor(after)
+      //     };
+      //   }
 
-      const { rows, count } = await models.Reply.findAndCountAll({
-        order: [["createdAt", "ASC"]],
-        limit: perPage,
-        where: whereOptions
-      });
+      //   const { rows, count } = await models.Reply.findAndCountAll({
+      //     order: [["createdAt", "ASC"]],
+      //     limit: perPage,
+      //     where: whereOptions
+      //   });
 
-      return {
-        edges: rows,
-        pageInfo: {
-          endCursor: rows.length
-            ? encodeCursor(rows[rows.length - 1].createdAt.toISOString())
-            : null,
-          hasMore: rows.length ? count > rows.length : false
-        }
-      };
+      //   return {
+      //     edges: rows,
+      //     pageInfo: {
+      //       endCursor: rows.length
+      //         ? encodeCursor(rows[rows.length - 1].createdAt.toISOString())
+      //         : null,
+      //       hasMore: rows.length ? count > rows.length : false
+      //     }
+      //   };
     }
   }
 };

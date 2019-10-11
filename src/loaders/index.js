@@ -1,5 +1,5 @@
 import userLoader from "./user";
-import replyLoader from "./reply";
 import channelLoader from "./channel";
+import repliesLoader from "./replies";
 
-export { userLoader, replyLoader, channelLoader };
+export { userLoader, channelLoader, repliesLoader };

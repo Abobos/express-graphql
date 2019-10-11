@@ -8,7 +8,8 @@ const thread = gql`
     content: String!
     creator: User!
     channel: Channel!
-    replies(perPage: Int, after: String): ReplyConnection!
+    # replies(perPage: Int, after: String): ReplyConnection!
+    replies: Reply!
     status: ThreadStatus!
     isLocked: Boolean!
     lastRepliedAt: DateTime!
