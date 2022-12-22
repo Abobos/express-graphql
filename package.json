@@ -18,7 +18,7 @@
     "express": "^4.17.1",
     "graphql": "^14.5.8",
     "graphql-playground-middleware-express": "^1.7.12",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "pg": "^7.12.1",
     "sequelize": "^5.19.1",
     "sequelize-cli": "^5.5.1",
